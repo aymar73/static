@@ -2,7 +2,7 @@ pipeline{
         agent any
         stages {
             stage('Security Scan') {
-                step {
+                steps {
                    aquaMicroscanner imageName: 'alpine:latest', notCompliesCmd: 'exit l', onDisallowed: 'fail', outputFormat: 'html'
                 }
             }
