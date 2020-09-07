@@ -1,13 +1,17 @@
 pipeline{
         agent any
         stages {
-            stage('Upload to AWS) {
+            stage('Lint HTML'){
                 steps {
-                 withAWS(region: 'us-west-2', credentials: 'aws-static') {
-                 s3Upload(file: 'index.html', bucket: 'jenkins-pipeline-aws', path:'')
-                 }
-             }
-         }
-     }
+                    sh 'tidy -q -e *.html'
+                }
+            }
+            stage('Upload to AWS') {
+                steps {
+                    withAWS(region:'us-west-2', credentials:'aws-static'){
+                    s3Upload(file:'index.html', bucket:'jenkins-pipeline-aws', path:'')
+                    }
+                }
+            }
+        }
 }
-
